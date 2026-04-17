@@ -370,18 +370,21 @@
       bottom: 2rem;
       right: 2rem;
       left: auto;
+      top: auto;
       z-index: 100;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      background: rgba(255,255,255,0.75);
+      background: rgba(255,255,255,0.9);
       border: 1.5px solid rgba(155,133,181,0.4);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       padding: 0.65rem 1.2rem 0.65rem 0.65rem;
       border-radius: 50px;
       box-shadow: 0 8px 24px rgba(107,66,38,0.15);
       transition: box-shadow 0.3s ease;
+      transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+      will-change: transform;
+      isolation: isolate;
     }
 
     .music-player:hover {
@@ -814,12 +817,9 @@
     }
 
     function tryPlayAudio() {
-      // Só tenta tocar se o arquivo existir
-      if (audio.readyState >= 2 || audio.networkState === 2) {
-        audio.play()
-          .then(() => setPlaying(true))
-          .catch(() => setPlaying(false));
-      }
+      audio.play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false));
     }
 
     // Esconde o player se não houver música
@@ -827,8 +827,10 @@
       document.getElementById('musicPlayer').style.display = 'none';
     });
 
-    playBtn.addEventListener('click', (e) => {
+    playBtn.addEventListener('click', function(e) {
+      e.preventDefault();
       e.stopPropagation();
+      
       if (audio.paused) {
         tryPlayAudio();
       } else {
@@ -938,22 +940,28 @@
     animate();
 
     // Botão para jogar mais pétalas
-    document.getElementById('petalBtn').addEventListener('click', () => {
-      const burst = window.innerWidth < 600 ? 15 : 25;
-      for (let i = 0; i < burst; i++) {
-        const p = new Petal();
-        p.y = -50 - Math.random() * 50;
-        p.x = Math.random() * canvas.width;
-        petals.push(p);
-      }
-
-      // Remove pétalas extras após 10s
-      setTimeout(() => {
-        while (petals.length > PETAL_COUNT) {
-          petals.shift();
+    const petalBtn = document.getElementById('petalBtn');
+    if (petalBtn) {
+      petalBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const burst = window.innerWidth < 600 ? 15 : 25;
+        for (let i = 0; i < burst; i++) {
+          const p = new Petal();
+          p.y = -50 - Math.random() * 50;
+          p.x = Math.random() * canvas.width;
+          petals.push(p);
         }
-      }, 10000);
-    });
+
+        // Remove pétalas extras após 10s
+        setTimeout(() => {
+          while (petals.length > PETAL_COUNT) {
+            petals.shift();
+          }
+        }, 10000);
+      });
+    }
   </script>
 </body>
 </html>
