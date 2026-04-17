@@ -778,13 +778,30 @@
       // Fecha o overlay imediatamente
       startOverlay.classList.add('hidden');
       
-      // Pequeno delay para garantir que o overlay fechou antes de tocar
+      // Verifica se o áudio tem source válido antes de tentar tocar
       setTimeout(() => {
-        audio.play().then(() => {
-          setPlaying(true);
-        }).catch(err => {
-          console.warn('Música não disponível ou bloqueada pelo navegador:', err);
-        });
+        // Verifica se o arquivo de áudio existe
+        if (!audio.src || audio.src.includes('musica.mp3')) {
+          // Tenta carregar o áudio primeiro
+          audio.load();
+          
+          // Aguarda o áudio estar pronto
+          audio.addEventListener('canplay', function playWhenReady() {
+            audio.play().then(() => {
+              setPlaying(true);
+            }).catch(err => {
+              console.warn('Não foi possível tocar a música:', err.message);
+            });
+            audio.removeEventListener('canplay', playWhenReady);
+          }, { once: true });
+          
+          // Timeout de segurança - se não carregar em 2s, desiste
+          setTimeout(() => {
+            if (audio.paused && audio.readyState < 2) {
+              console.warn('Arquivo de música não encontrado ou não carregou');
+            }
+          }, 2000);
+        }
       }, 100);
     });
 
