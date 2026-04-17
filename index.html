@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bea & Doni — Nossa História</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
@@ -769,40 +770,10 @@
     const iconPause = document.getElementById('iconPause');
     const waves = document.getElementById('musicWaves');
 
-    let isStarting = false;
-
+    // Fecha overlay e tenta tocar
     startOverlay.addEventListener('click', () => {
-      if (isStarting) return;
-      isStarting = true;
-      
-      // Fecha o overlay imediatamente
       startOverlay.classList.add('hidden');
-      
-      // Verifica se o áudio tem source válido antes de tentar tocar
-      setTimeout(() => {
-        // Verifica se o arquivo de áudio existe
-        if (!audio.src || audio.src.includes('musica.mp3')) {
-          // Tenta carregar o áudio primeiro
-          audio.load();
-          
-          // Aguarda o áudio estar pronto
-          audio.addEventListener('canplay', function playWhenReady() {
-            audio.play().then(() => {
-              setPlaying(true);
-            }).catch(err => {
-              console.warn('Não foi possível tocar a música:', err.message);
-            });
-            audio.removeEventListener('canplay', playWhenReady);
-          }, { once: true });
-          
-          // Timeout de segurança - se não carregar em 2s, desiste
-          setTimeout(() => {
-            if (audio.paused && audio.readyState < 2) {
-              console.warn('Arquivo de música não encontrado ou não carregou');
-            }
-          }, 2000);
-        }
-      }, 100);
+      tryPlayAudio();
     });
 
     /* ── PLAYER ── */
@@ -812,15 +783,25 @@
       waves.classList.toggle('paused', !playing);
     }
 
+    function tryPlayAudio() {
+      audio.play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false));
+    }
+
     playBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Evita conflito com overlay
-      if (audio.paused) { 
-        audio.play().then(() => setPlaying(true)).catch(()=>{}); 
-      } else { 
-        audio.pause(); 
-        setPlaying(false); 
+      e.stopPropagation();
+      if (audio.paused) {
+        tryPlayAudio();
+      } else {
+        audio.pause();
+        setPlaying(false);
       }
     });
+
+    // Atualiza estado visual quando o áudio muda
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
 
     /* ── SCROLL REVEAL ── */
     const obs = new IntersectionObserver((entries) => {
