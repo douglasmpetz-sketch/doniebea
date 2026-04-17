@@ -1,0 +1,909 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bea & Doni — Nossa História</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky-top:     #fde8d0;
+      --sky-mid:     #f9d4b6;
+      --sky-low:     #f2c4a0;
+      --peach:       #e8956d;
+      --lavender:    #c9b8d8;
+      --lavender-dk: #9b85b5;
+      --moss:        #7a9e7e;
+      --moss-dk:     #4a7050;
+      --cream:       #fdf6ee;
+      --brown:       #6b4226;
+      --brown-lt:    #a0673a;
+      --text:        #3d2b1f;
+      --text-soft:   #6b4e3d;
+      --white-cloud: rgba(255,255,255,0.85);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--sky-top);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SKY BACKGROUND ── */
+    .sky {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #fce4c8 0%,
+        #f9d4b0 25%,
+        #f5c8a8 50%,
+        #eebfa0 70%,
+        #c9b8d8 85%,
+        #b8a8cc 100%
+      );
+      z-index: 0;
+    }
+
+    /* ── GRASS BOTTOM ── */
+    .grass {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── CLOUDS ── */
+    .clouds {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .cloud {
+      position: absolute;
+      background: var(--white-cloud);
+      border-radius: 50px;
+      filter: blur(2px);
+      animation: drift linear infinite;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .cloud-1 { width:160px; height:50px; top:8%;  animation-duration:60s; animation-delay:-10s; opacity:0.75; }
+    .cloud-1::before { width:80px;  height:70px;  top:-35px; left:20px; }
+    .cloud-1::after  { width:60px;  height:55px;  top:-25px; left:70px; }
+
+    .cloud-2 { width:220px; height:60px; top:18%; animation-duration:80s; animation-delay:-35s; opacity:0.6; }
+    .cloud-2::before { width:100px; height:80px;  top:-40px; left:30px; }
+    .cloud-2::after  { width:80px;  height:65px;  top:-30px; left:100px; }
+
+    .cloud-3 { width:120px; height:40px; top:5%;  animation-duration:50s; animation-delay:-20s; opacity:0.5; }
+    .cloud-3::before { width:60px;  height:55px;  top:-28px; left:15px; }
+    .cloud-3::after  { width:50px;  height:45px;  top:-20px; left:55px; }
+
+    .cloud-4 { width:180px; height:55px; top:28%; animation-duration:70s; animation-delay:-5s;  opacity:0.55; }
+    .cloud-4::before { width:90px;  height:75px;  top:-38px; left:25px; }
+    .cloud-4::after  { width:70px;  height:60px;  top:-28px; left:85px; }
+
+    @keyframes drift {
+      from { transform: translateX(-300px); }
+      to   { transform: translateX(calc(100vw + 300px)); }
+    }
+
+    /* ── SPARKLES ── */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 2;
+      color: #e8f4f8;
+      text-shadow: 0 0 12px rgba(232,244,248,0.9), 0 0 6px rgba(255,255,255,0.8);
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0; transform: scale(0.5) rotate(0deg); }
+      50%      { opacity:1; transform: scale(1) rotate(180deg); }
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      position: relative;
+      z-index: 3;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 8rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 0 3rem;
+      gap: 1.5rem;
+    }
+
+    .hero-badge {
+      background: rgba(255,255,255,0.6);
+      border: 1.5px solid rgba(155,133,181,0.4);
+      border-radius: 50px;
+      padding: 0.4rem 1.4rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--lavender-dk);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: floatIn 1s ease 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(4rem, 14vw, 7.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--brown);
+      text-shadow: 3px 4px 0px rgba(255,255,255,0.5);
+      opacity: 0;
+      animation: floatIn 1.2s ease 0.5s forwards;
+    }
+
+    .hero-title .amp {
+      display: inline;
+      font-size: 1em;
+      color: var(--peach);
+      line-height: 1.3;
+      margin: 0 0.2em;
+    }
+
+    .hero-date {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      color: var(--text-soft);
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: floatIn 1s ease 0.8s forwards;
+    }
+
+    /* ── FOTO DOS NOIVOS ── */
+    .couple-wrap {
+      opacity: 0;
+      animation: floatIn 1.4s ease 1s forwards;
+    }
+
+    .couple-frame {
+      position: relative;
+      width: clamp(200px, 50vw, 320px);
+      aspect-ratio: 3/4;
+      margin: 0 auto;
+    }
+
+    /* moldura aquarela */
+    .couple-frame::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background: rgba(255,255,255,0.35);
+      border: 2px solid rgba(155,133,181,0.35);
+      z-index: -1;
+      animation: wobble 6s ease-in-out infinite;
+    }
+
+    @keyframes wobble {
+      0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+      33%      { border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%; }
+      66%      { border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%; }
+    }
+
+    .couple-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 55% 45% 50% 50% / 45% 50% 50% 55%;
+      display: block;
+      box-shadow: 0 12px 40px rgba(107,66,38,0.25), 0 4px 12px rgba(107,66,38,0.15);
+      animation: wobble 6s ease-in-out infinite;
+    }
+
+    .couple-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #f5dcc8 0%, #e8c8b0 100%);
+      border-radius: 55% 45% 50% 50% / 45% 50% 50% 55%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--brown-lt);
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      text-align: center;
+      padding: 2rem;
+      animation: wobble 6s ease-in-out infinite;
+    }
+
+    .couple-placeholder svg {
+      width: 50px;
+      height: 50px;
+      opacity: 0.5;
+    }
+
+
+
+    /* ── DIVISOR ── */
+    .divider {
+      text-align: center;
+      padding: 2.5rem 0 1.5rem;
+      font-size: 1.6rem;
+      letter-spacing: 0.5rem;
+      opacity: 0;
+      animation: floatIn 1s ease 1.3s forwards;
+    }
+
+    /* ── MENSAGENS ── */
+    .messages-section { padding: 1rem 0 4rem; }
+
+    .messages-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      color: var(--brown);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .messages-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--peach), var(--lavender));
+      border-radius: 2px;
+      margin: 0.5rem auto 0;
+    }
+
+    .message-card {
+      position: relative;
+      background: rgba(255,255,255,0.55);
+      border: 1.5px solid rgba(255,255,255,0.8);
+      border-radius: 24px 8px 24px 8px;
+      padding: 2.5rem 2rem 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow:
+        0 8px 32px rgba(107,66,38,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
+    }
+
+    .message-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message-card:hover {
+      box-shadow:
+        0 16px 48px rgba(107,66,38,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+      transform: translateY(-3px);
+    }
+
+    /* folha decorativa no canto */
+    .card-leaf {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      font-size: 1.8rem;
+      transform: rotate(20deg);
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+    }
+
+    .message-text {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+      font-style: italic;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .message-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    .message-author-name {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--moss-dk);
+    }
+
+    .message-author-role {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem;
+      color: var(--lavender-dk);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--peach), var(--lavender));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── PLAYER DE MÚSICA ── */
+    .music-player {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.75);
+      border: 1.5px solid rgba(155,133,181,0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 0.65rem 1.2rem 0.65rem 0.65rem;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(107,66,38,0.15);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .music-player:hover {
+      box-shadow: 0 12px 32px rgba(107,66,38,0.22);
+    }
+
+    .music-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--peach), var(--lavender-dk));
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(107,66,38,0.2);
+    }
+
+    .music-btn:hover { transform: scale(1.08); }
+    .music-btn svg { width: 15px; height: 15px; fill: white; }
+
+    .music-info { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .music-title {
+      font-family: 'Caveat', cursive;
+      font-size: 0.95rem;
+      color: var(--brown);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 130px;
+    }
+
+    .music-waves {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .music-waves span {
+      display: block;
+      width: 3px;
+      background: var(--peach);
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite;
+      transform-origin: bottom;
+    }
+    .music-waves span:nth-child(1) { height:5px;  animation-delay:0s; }
+    .music-waves span:nth-child(2) { height:9px;  animation-delay:0.15s; }
+    .music-waves span:nth-child(3) { height:12px; animation-delay:0.3s; }
+    .music-waves span:nth-child(4) { height:7px;  animation-delay:0.45s; }
+    .music-waves span:nth-child(5) { height:10px; animation-delay:0.6s; }
+    .music-waves.paused span { animation-play-state: paused; }
+
+    @keyframes wave {
+      0%,100% { transform: scaleY(0.4); }
+      50%      { transform: scaleY(1); }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--text-soft);
+    }
+
+    /* ── ANIMAÇÕES ── */
+    @keyframes floatIn {
+      from { opacity:0; transform: translateY(20px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity:1; transform: translateY(0); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .music-player {
+        bottom: 1rem; right: 1rem; left: 1rem;
+        justify-content: center;
+      }
+      .music-title { max-width: 160px; }
+    }
+
+    /* ── CANVAS DE PÉTALAS ── */
+    #sakura-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    /* ── BOTÃO DE PÉTALAS ── */
+    .petal-btn {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      z-index: 100;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,182,193,0.5);
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      line-height: 1;
+      box-shadow: 0 8px 24px rgba(107,66,38,0.15);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      padding: 0;
+    }
+
+    .petal-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 32px rgba(107,66,38,0.22);
+    }
+
+    .petal-btn:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 600px) {
+      .petal-btn {
+        bottom: 5rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .petal-btn:hover {
+        transform: translateX(-50%) scale(1.08);
+      }
+    }
+
+    /* ── OVERLAY DE INÍCIO ── */
+    .start-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(252,228,200,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: opacity 0.6s ease;
+    }
+
+    .start-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .start-overlay-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: var(--brown);
+      text-align: center;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .start-overlay-subtitle {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      color: var(--text-soft);
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    .start-overlay-icon {
+      font-size: 3rem;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Overlay de início -->
+  <div class="start-overlay" id="startOverlay">
+    <div class="start-overlay-icon">🌸</div>
+    <h2 class="start-overlay-title">Bea & Doni</h2>
+    <p class="start-overlay-subtitle">Clique para começar</p>
+  </div>
+
+  <!-- Sky -->
+  <div class="sky"></div>
+
+  <!-- Canvas de pétalas de sakura -->
+  <canvas id="sakura-canvas"></canvas>
+
+  <!-- Clouds -->
+  <div class="clouds">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+  </div>
+
+  <!-- Sparkles -->
+  <div class="sparkle" style="top:15%;left:10%;animation-delay:0s">✦</div>
+  <div class="sparkle" style="top:25%;right:12%;animation-delay:1s;font-size:0.8rem">✦</div>
+  <div class="sparkle" style="top:40%;left:5%;animation-delay:2s;font-size:0.6rem">✦</div>
+  <div class="sparkle" style="top:60%;right:8%;animation-delay:0.5s">✦</div>
+  <div class="sparkle" style="top:10%;right:25%;animation-delay:1.5s;font-size:0.7rem">✦</div>
+  <div class="sparkle" style="top:8%;left:30%;animation-delay:2.2s;font-size:0.9rem">✦</div>
+  <div class="sparkle" style="top:35%;right:20%;animation-delay:0.8s;font-size:0.75rem">✦</div>
+  <div class="sparkle" style="top:50%;left:15%;animation-delay:1.8s">✦</div>
+  <div class="sparkle" style="top:20%;left:45%;animation-delay:2.5s;font-size:0.65rem">✦</div>
+  <div class="sparkle" style="top:45%;right:35%;animation-delay:1.2s;font-size:0.85rem">✦</div>
+  <div class="sparkle" style="top:12%;right:5%;animation-delay:0.3s;font-size:0.7rem">✦</div>
+  <div class="sparkle" style="top:55%;left:8%;animation-delay:2.8s;font-size:0.8rem">✦</div>
+  <div class="sparkle" style="top:30%;right:40%;animation-delay:1.6s">✦</div>
+  <div class="sparkle" style="top:65%;right:15%;animation-delay:0.9s;font-size:0.75rem">✦</div>
+  <div class="sparkle" style="top:18%;left:60%;animation-delay:2.1s;font-size:0.7rem">✦</div>
+
+  <!-- Grass SVG -->
+  <svg class="grass" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C120,40 240,100 360,70 C480,40 600,90 720,65 C840,40 960,85 1080,60 C1200,35 1320,80 1440,55 L1440,120 L0,120 Z" fill="#7a9e7e" opacity="0.9"/>
+    <path d="M0,95 C100,65 220,105 340,85 C460,65 580,100 700,80 C820,60 940,95 1060,75 C1180,55 1320,90 1440,70 L1440,120 L0,120 Z" fill="#4a7050" opacity="0.7"/>
+    <!-- grass blades -->
+    <g fill="#5a8a5e" opacity="0.8">
+      <path d="M50,95 Q55,70 60,95"/>
+      <path d="M120,90 Q127,60 134,90"/>
+      <path d="M200,92 Q205,72 210,92"/>
+      <path d="M280,88 Q287,58 294,88"/>
+      <path d="M360,93 Q365,68 370,93"/>
+      <path d="M440,89 Q447,62 454,89"/>
+      <path d="M520,91 Q525,66 530,91"/>
+      <path d="M600,87 Q607,57 614,87"/>
+      <path d="M680,92 Q685,67 690,92"/>
+      <path d="M760,88 Q767,61 774,88"/>
+      <path d="M840,93 Q845,68 850,93"/>
+      <path d="M920,89 Q927,62 934,89"/>
+      <path d="M1000,91 Q1005,66 1010,91"/>
+      <path d="M1080,87 Q1087,57 1094,87"/>
+      <path d="M1160,92 Q1165,67 1170,92"/>
+      <path d="M1240,88 Q1247,61 1254,88"/>
+      <path d="M1320,93 Q1325,68 1330,93"/>
+      <path d="M1400,89 Q1407,62 1414,89"/>
+    </g>
+  </svg>
+
+  <!-- Player de música -->
+  <div class="music-player" id="musicPlayer">
+    <button class="music-btn" id="playBtn" aria-label="Tocar/Pausar música">
+      <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <div class="music-info">
+      <span class="music-title" id="musicTitle"></span>
+      <div class="music-waves paused" id="musicWaves">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>    
+      </div>
+  </div>
+
+  <!-- Botão de pétalas -->
+  <button class="petal-btn" id="petalBtn" aria-label="Jogar mais pétalas" title="Jogar mais pétalas 🌸">
+    🌸
+  </button>
+
+  <!-- Áudio -->
+  <audio id="bgMusic" loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Conteúdo -->
+  <main class="page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">✿ uma história de amor ✿</div>
+
+      <h1 class="hero-title">
+        Bea & Doni
+      </h1>
+
+      <p class="hero-date">17 · Abril · 2026</p>
+
+      <!-- Foto dos noivos -->
+      <div class="couple-wrap">
+        <div class="couple-frame">
+          <img
+            class="couple-photo"
+            src="foto-noivos.png"
+            alt="Foto dos noivos Bea e Doni"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="couple-placeholder" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Foto dos noivos aqui 🌸</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider">🌸 🌸 🌸</div>
+    </section>
+
+    <!-- MENSAGENS DOS PADRINHOS -->
+    <section class="messages-section">
+      <h2 class="messages-title reveal">Palavras dos Padrinhos</h2>
+
+      <!-- Mensagem 1 — Duh e Raissa -->
+      <article class="message-card reveal">
+        <span class="card-leaf">🌿</span>
+        <p class="message-text">
+          "Eaiii Bea e Doni!!! Que felicidade acompanhar todos esses anos de crescimento e evolução juntos, desde adolescentes — que lembrança e trajetória bonita!!! Que o amor que uniu vocês cresça e se fortaleça a cada novo dia, servindo de base para uma vida repleta de companheirismo e respeito. Que a alegria deste momento acompanhe vocês em toda a caminhada, e que nunca falte paciência para enfrentar os desafios juntos. Que cada conquista seja celebrada lado a lado, com gratidão, e que os sonhos de vocês se tornem planos realizados em parceria. Que Deus abençoe e guie cada passo dessa nova fase, e que o lar de vocês seja sempre cheio de amor, paz e felicidade. É noisss sempre!!! Contem com a gente!!! ❤️🎉"
+        </p>
+        <div class="message-footer">
+          <div>
+            <p class="message-author-name">Duh &amp; Raissa</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Mensagem 2 — Julio e Quézia -->
+      <article class="message-card reveal">
+        <span class="card-leaf">🍃</span>
+        <p class="message-text">
+          "Doni e Bia, agradecemos muito o privilégio de fazer parte desse momento tão especial na vida de vocês. Ficamos muito honrados e felizes com o convite! Desejamos que Deus continue abençoando e guiando ainda mais a união de vocês nessa nova fase, começando a família de vocês. Que não falte amor, parceria, paciência e muitos momentos de alegria nessa caminhada juntos — e que, mesmo nos dias mais desafiadores, vocês lembrem do motivo que uniu vocês até aqui. Saibam que sempre que precisarem, podem contar com a gente. 💙"
+        </p>
+        <div class="message-footer">
+          <div>
+            <p class="message-author-name">Julio &amp; Quézia</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Mensagem 3 — Douglas e Nicole -->
+      <article class="message-card reveal">
+        <span class="card-leaf">🌺</span>
+        <p class="message-text">
+          "Doni e Bia, a gente cresce, muda e segue caminhos diferentes… mas algumas coisas nunca mudam: a amizade que temos por vocês. Hoje, ver vocês começando esse novo capítulo nos enche de alegria. Desejamos que o amor de vocês seja leve nos dias bons e forte nos dias difíceis. Que nunca faltem parceria, respeito, risadas no caminho e a presença de Deus. Obrigada por nos deixarem fazer parte deste momento tão importante. Estar ao lado de vocês como padrinhos é uma honra que levamos com muito carinho. Contem conosco sempre. ❤️"
+        </p>
+        <div class="message-footer">
+          <div>
+            <p class="message-author-name">Douglas &amp; Nicole</p>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer reveal">
+      <p>🌸 feito com amor para o dia mais especial 🌸</p>
+    </footer>
+
+  </main>
+
+  <script>
+    /* ── OVERLAY DE INÍCIO ── */
+    const startOverlay = document.getElementById('startOverlay');
+    const audio = document.getElementById('bgMusic');
+    const playBtn = document.getElementById('playBtn');
+    const iconPlay = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+    const waves = document.getElementById('musicWaves');
+
+    startOverlay.addEventListener('click', () => {
+      audio.play().then(() => {
+        setPlaying(true);
+        startOverlay.classList.add('hidden');
+      }).catch(err => {
+        console.error('Erro ao tocar música:', err);
+        startOverlay.classList.add('hidden');
+      });
+    });
+
+    /* ── PLAYER ── */
+    function setPlaying(playing) {
+      iconPlay.style.display = playing ? 'none' : 'block';
+      iconPause.style.display = playing ? 'block' : 'none';
+      waves.classList.toggle('paused', !playing);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) { audio.play().catch(()=>{}); setPlaying(true); }
+      else { audio.pause(); setPlaying(false); }
+    });
+
+    /* ── SCROLL REVEAL ── */
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .message-card').forEach(el => obs.observe(el));
+
+    /* ── PÉTALAS DE SAKURA ── */
+    const canvas = document.getElementById('sakura-canvas');
+    const ctx = canvas.getContext('2d');
+    const petals = [];
+    const PETAL_COUNT = window.innerWidth < 600 ? 12 : 20;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Petal {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = -20 - Math.random() * 100;
+        this.size = 8 + Math.random() * 12;
+        this.speedY = 0.5 + Math.random() * 1.2;
+        this.speedX = (Math.random() - 0.5) * 0.8;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.03;
+        this.sway = Math.random() * Math.PI * 2;
+        this.swaySpeed = 0.01 + Math.random() * 0.015;
+        this.opacity = 0.6 + Math.random() * 0.4;
+      }
+
+      update() {
+        this.sway += this.swaySpeed;
+        this.x += this.speedX + Math.sin(this.sway) * 0.6;
+        this.y += this.speedY;
+        this.angle += this.spin;
+
+        if (this.y > canvas.height + 20) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.globalAlpha = this.opacity;
+
+        // Desenha pétala de sakura (5 pétalas)
+        ctx.fillStyle = '#ffb6c1';
+        for (let i = 0; i < 5; i++) {
+          ctx.save();
+          ctx.rotate((Math.PI * 2 * i) / 5);
+          ctx.beginPath();
+          ctx.ellipse(0, -this.size * 0.3, this.size * 0.3, this.size * 0.5, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Centro da flor
+        ctx.fillStyle = '#fff0f5';
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    // Inicializa pétalas
+    for (let i = 0; i < PETAL_COUNT; i++) {
+      const p = new Petal();
+      p.y = Math.random() * canvas.height; // distribuição inicial
+      petals.push(p);
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Botão para jogar mais pétalas
+    document.getElementById('petalBtn').addEventListener('click', () => {
+      const burst = window.innerWidth < 600 ? 15 : 25;
+      for (let i = 0; i < burst; i++) {
+        const p = new Petal();
+        p.y = -50 - Math.random() * 50;
+        p.x = Math.random() * canvas.width;
+        petals.push(p);
+      }
+
+      // Remove pétalas extras após 10s
+      setTimeout(() => {
+        while (petals.length > PETAL_COUNT) {
+          petals.shift();
+        }
+      }, 10000);
+    });
+  </script>
+</body>
+</html>
