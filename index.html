@@ -369,6 +369,7 @@
       position: fixed;
       bottom: 2rem;
       right: 2rem;
+      left: auto;
       z-index: 100;
       display: flex;
       align-items: center;
@@ -471,10 +472,17 @@
     /* ── MOBILE ── */
     @media (max-width: 600px) {
       .music-player {
-        bottom: 1rem; right: 1rem; left: 1rem;
-        justify-content: center;
+        bottom: 1rem; 
+        right: 1rem; 
+        left: auto;
       }
       .music-title { max-width: 160px; }
+      
+      .petal-btn {
+        bottom: 1rem;
+        left: 1rem;
+        right: auto;
+      }
     }
 
     /* ── CANVAS DE PÉTALAS ── */
@@ -490,6 +498,7 @@
       position: fixed;
       bottom: 2rem;
       left: 2rem;
+      right: auto;
       z-index: 100;
       width: 56px;
       height: 56px;
@@ -522,10 +531,15 @@
       .petal-btn {
         bottom: 5rem;
         left: 50%;
+        right: auto;
         transform: translateX(-50%);
+        margin-left: 0;
       }
       .petal-btn:hover {
         transform: translateX(-50%) scale(1.08);
+      }
+      .petal-btn:active {
+        transform: translateX(-50%) scale(0.95);
       }
     }
 
@@ -784,10 +798,18 @@
     }
 
     function tryPlayAudio() {
-      audio.play()
-        .then(() => setPlaying(true))
-        .catch(() => setPlaying(false));
+      // Só tenta tocar se o arquivo existir
+      if (audio.readyState >= 2 || audio.networkState === 2) {
+        audio.play()
+          .then(() => setPlaying(true))
+          .catch(() => setPlaying(false));
+      }
     }
+
+    // Esconde o player se não houver música
+    audio.addEventListener('error', () => {
+      document.getElementById('musicPlayer').style.display = 'none';
+    });
 
     playBtn.addEventListener('click', (e) => {
       e.stopPropagation();
