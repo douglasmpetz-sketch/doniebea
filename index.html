@@ -489,18 +489,18 @@
         left: 1rem;
         top: auto;
         right: auto;
-        transform: translate(0, 0);
-        -webkit-transform: translate(0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
       }
       
       .petal-btn:hover {
-        transform: translate(0, 0) scale(1.08);
-        -webkit-transform: translate(0, 0) scale(1.08);
+        transform: translate3d(0, 0, 0) scale(1.08);
+        -webkit-transform: translate3d(0, 0, 0) scale(1.08);
       }
       
       .petal-btn:active {
-        transform: translate(0, 0) scale(0.95);
-        -webkit-transform: translate(0, 0) scale(0.95);
+        transform: translate3d(0, 0, 0) scale(0.95);
+        -webkit-transform: translate3d(0, 0, 0) scale(0.95);
       }
     }
 
@@ -527,10 +527,8 @@
       min-height: 56px;
       border-radius: 50%;
       border: 1.5px solid rgba(255,182,193,0.5);
-      background: rgba(255,255,255,0.75);
-      background-color: rgba(255,255,255,0.75);
-      -webkit-backdrop-filter: blur(16px);
-      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.9);
+      background-color: rgba(255,255,255,0.9);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -540,8 +538,10 @@
       box-shadow: 0 8px 24px rgba(107,66,38,0.15);
       transition: transform 0.2s ease, box-shadow 0.3s ease;
       padding: 0;
-      transform: translate(0, 0);
-      -webkit-transform: translate(0, 0);
+      transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+      will-change: transform;
+      isolation: isolate;
       touch-action: manipulation;
       -webkit-tap-highlight-color: transparent;
       -webkit-user-select: none;
@@ -549,14 +549,14 @@
     }
 
     .petal-btn:hover {
-      transform: translate(0, 0) scale(1.08);
-      -webkit-transform: translate(0, 0) scale(1.08);
+      transform: translate3d(0, 0, 0) scale(1.08);
+      -webkit-transform: translate3d(0, 0, 0) scale(1.08);
       box-shadow: 0 12px 32px rgba(107,66,38,0.22);
     }
 
     .petal-btn:active {
-      transform: translate(0, 0) scale(0.95);
-      -webkit-transform: translate(0, 0) scale(0.95);
+      transform: translate3d(0, 0, 0) scale(0.95);
+      -webkit-transform: translate3d(0, 0, 0) scale(0.95);
     }
 
     /* ── OVERLAY DE INÍCIO ── */
