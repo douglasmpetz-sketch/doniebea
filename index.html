@@ -769,17 +769,23 @@
     const iconPause = document.getElementById('iconPause');
     const waves = document.getElementById('musicWaves');
 
+    let isStarting = false;
+
     startOverlay.addEventListener('click', () => {
-      // Sempre fecha o overlay primeiro
+      if (isStarting) return;
+      isStarting = true;
+      
+      // Fecha o overlay imediatamente
       startOverlay.classList.add('hidden');
       
-      // Tenta tocar a música (se existir)
-      audio.play().then(() => {
-        setPlaying(true);
-      }).catch(err => {
-        console.warn('Música não disponível ou bloqueada pelo navegador:', err);
-        // Overlay já foi fechado, então a página funciona normalmente
-      });
+      // Pequeno delay para garantir que o overlay fechou antes de tocar
+      setTimeout(() => {
+        audio.play().then(() => {
+          setPlaying(true);
+        }).catch(err => {
+          console.warn('Música não disponível ou bloqueada pelo navegador:', err);
+        });
+      }, 100);
     });
 
     /* ── PLAYER ── */
@@ -789,9 +795,14 @@
       waves.classList.toggle('paused', !playing);
     }
 
-    playBtn.addEventListener('click', () => {
-      if (audio.paused) { audio.play().catch(()=>{}); setPlaying(true); }
-      else { audio.pause(); setPlaying(false); }
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita conflito com overlay
+      if (audio.paused) { 
+        audio.play().then(() => setPlaying(true)).catch(()=>{}); 
+      } else { 
+        audio.pause(); 
+        setPlaying(false); 
+      }
     });
 
     /* ── SCROLL REVEAL ── */
