@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -770,12 +770,15 @@
     const waves = document.getElementById('musicWaves');
 
     startOverlay.addEventListener('click', () => {
+      // Sempre fecha o overlay primeiro
+      startOverlay.classList.add('hidden');
+      
+      // Tenta tocar a música (se existir)
       audio.play().then(() => {
         setPlaying(true);
-        startOverlay.classList.add('hidden');
       }).catch(err => {
-        console.error('Erro ao tocar música:', err);
-        startOverlay.classList.add('hidden');
+        console.warn('Música não disponível ou bloqueada pelo navegador:', err);
+        // Overlay já foi fechado, então a página funciona normalmente
       });
     });
 
