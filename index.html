@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Nunito:wght@300;400;600&family=Bangers&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -464,6 +464,62 @@
       color: var(--text-soft);
     }
 
+    .secret-link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-family: 'Bangers', cursive;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: #ff006e;
+      text-decoration: none;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      border: 3px solid #ffea00;
+      border-radius: 15px;
+      box-shadow: 
+        0 0 20px rgba(255,0,110,0.6),
+        0 0 40px rgba(191,0,255,0.4),
+        0 5px 15px rgba(0,0,0,0.3);
+      text-shadow: 
+        0 0 10px #ffea00,
+        2px 2px 0 #ff006e,
+        4px 4px 0 #bf00ff;
+      transition: all 0.3s ease;
+      animation: pulse 2s ease-in-out infinite;
+      letter-spacing: 0.1em;
+      transform: rotate(-2deg);
+    }
+
+    .secret-link:hover {
+      transform: rotate(-2deg) scale(1.1);
+      box-shadow: 
+        0 0 30px rgba(255,0,110,0.8),
+        0 0 60px rgba(191,0,255,0.6),
+        0 8px 25px rgba(0,0,0,0.4);
+      animation: glitchLink 0.3s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        box-shadow: 
+          0 0 20px rgba(255,0,110,0.6),
+          0 0 40px rgba(191,0,255,0.4),
+          0 5px 15px rgba(0,0,0,0.3);
+      }
+      50% { 
+        box-shadow: 
+          0 0 30px rgba(255,0,110,0.8),
+          0 0 60px rgba(191,0,255,0.6),
+          0 5px 15px rgba(0,0,0,0.3);
+      }
+    }
+
+    @keyframes glitchLink {
+      0%, 100% { transform: rotate(-2deg) scale(1.1) translate(0); }
+      25% { transform: rotate(-2deg) scale(1.1) translate(-2px, 2px); }
+      50% { transform: rotate(-2deg) scale(1.1) translate(2px, -2px); }
+      75% { transform: rotate(-2deg) scale(1.1) translate(-2px, -2px); }
+    }
+
     /* ── ANIMAÇÕES ── */
     @keyframes floatIn {
       from { opacity:0; transform: translateY(20px); }
@@ -790,6 +846,7 @@
     <!-- FOOTER -->
     <footer class="footer reveal">
       <p>🌸 feito com amor para o dia mais especial 🌸</p>
+      <a href="zoeira.html" class="secret-link">não clique aqui</a>
     </footer>
 
   </main>
