@@ -23,7 +23,6 @@
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
       min-height: 100vh;
-      height: 100vh;
       overflow-y: auto;
       overflow-x: hidden;
       font-family: 'Righteous', cursive;
@@ -391,22 +390,110 @@
       50% { transform: scaleY(1); }
     }
 
+    @media (max-width: 900px) {
+      .carousel-container {
+        padding: 0 70px;
+      }
+      
+      .carousel-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+      }
+      
+      .carousel-btn-prev { left: 10px; }
+      .carousel-btn-right { right: 10px; }
+    }
+
     @media (max-width: 600px) {
+      .carousel-container {
+        padding: 0 60px;
+      }
+      
       .back-btn {
         top: 1rem;
         left: 1rem;
         padding: 0.5rem 1rem;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
       .music-player {
         bottom: 1rem;
         right: 1rem;
+        padding: 0.5rem 1rem 0.5rem 0.5rem;
       }
+      
+      .music-btn {
+        width: 35px;
+        height: 35px;
+      }
+      
+      .header {
+        padding: 1rem 0.5rem 0.5rem;
+      }
+      
+      .title {
+        font-size: clamp(1.5rem, 8vw, 2.5rem);
+      }
+      
+      .subtitle {
+        font-size: clamp(0.75rem, 2.5vw, 1rem);
+      }
+    }
+
+    /* Overlay de início */
+    .start-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(102,126,234,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: opacity 0.6s ease;
+    }
+
+    .start-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .start-overlay-icon {
+      font-size: 4rem;
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    .start-overlay-title {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      color: var(--neon-yellow);
+      text-shadow: 
+        0 0 10px var(--neon-yellow),
+        3px 3px 0 var(--neon-pink);
+      text-align: center;
+    }
+
+    .start-overlay-subtitle {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: white;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+
+  <!-- Overlay de início -->
+  <div class="start-overlay" id="startOverlay">
+    <div class="start-overlay-icon">🤪</div>
+    <h2 class="start-overlay-title">SIKSIK 4EVER KCT!</h2>
+    <p class="start-overlay-subtitle">Clique para começar 🎉</p>
+  </div>
 
   <!-- Emojis flutuantes -->
   <div class="floating-emoji emoji-1">🤪</div>
@@ -431,13 +518,13 @@
   </div>
 
   <!-- Áudio -->
-  <audio id="bgMusic" loop autoplay>
+  <audio id="bgMusic" loop>
     <source src="musica2.mp3" type="audio/mpeg" />
   </audio>
 
   <!-- Header -->
   <div class="header">
-    <h1 class="title">ACHARAM QUE ERA SÓ ISSO?</h1>
+    <h1 class="title">ACHOU QUE ERA SÓ ISSO?</h1>
     <p class="subtitle">🤪 Fotos que (quase) não deveriam existir 😂</p>
   </div>
 
@@ -460,13 +547,23 @@
   </div>
 
   <script>
-    // Player de música
+    // Overlay de início
+    const startOverlay = document.getElementById('startOverlay');
     const audio = document.getElementById('bgMusic');
     const playBtn = document.getElementById('playBtn');
     const iconPlay = document.getElementById('iconPlay');
     const iconPause = document.getElementById('iconPause');
     const waves = document.getElementById('musicWaves');
 
+    // Fecha overlay e toca música
+    startOverlay.addEventListener('click', () => {
+      startOverlay.classList.add('hidden');
+      audio.play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false));
+    });
+
+    // Player de música
     function setPlaying(playing) {
       iconPlay.style.display = playing ? 'none' : 'block';
       iconPause.style.display = playing ? 'block' : 'none';
@@ -482,9 +579,6 @@
         setPlaying(false);
       }
     });
-
-    // Tenta tocar automaticamente
-    audio.play().then(() => setPlaying(true)).catch(() => {});
 
     audio.addEventListener('play', () => setPlaying(true));
     audio.addEventListener('pause', () => setPlaying(false));
