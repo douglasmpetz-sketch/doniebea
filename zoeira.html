@@ -20,11 +20,20 @@
       --dark: #0a0a0a;
     }
 
+    html {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
       min-height: 100vh;
       overflow-y: auto;
       overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      padding: 0;
       font-family: 'Righteous', cursive;
       color: white;
       position: relative;
@@ -64,11 +73,9 @@
       font-size: clamp(2rem, 8vw, 3.5rem);
       color: var(--neon-yellow);
       text-shadow: 
-        0 0 10px var(--neon-yellow),
-        0 0 20px var(--neon-yellow),
-        0 0 30px var(--neon-pink),
-        3px 3px 0 var(--neon-pink),
-        6px 6px 0 var(--neon-purple);
+        0 0 3px rgba(255,234,0,0.4),
+        2px 2px 0 var(--neon-pink),
+        3px 3px 0 var(--neon-purple);
       animation: glitch 2s infinite;
       letter-spacing: 0.1em;
       transform: rotate(-2deg);
@@ -86,7 +93,7 @@
       font-family: 'Permanent Marker', cursive;
       font-size: clamp(0.85rem, 2.5vw, 1.2rem);
       color: var(--neon-blue);
-      text-shadow: 0 0 10px var(--neon-blue);
+      text-shadow: 0 0 3px rgba(0,245,255,0.4);
       margin-top: 0.5rem;
       animation: bounce 1s ease-in-out infinite;
     }
@@ -113,14 +120,15 @@
     .carousel {
       position: relative;
       width: 100%;
+      max-width: 100%;
       aspect-ratio: 4/3;
       overflow: hidden;
       border-radius: 20px;
       border: 5px solid var(--neon-pink);
       box-shadow: 
-        0 0 20px var(--neon-pink),
-        0 0 40px var(--neon-purple),
-        0 10px 50px rgba(0,0,0,0.5);
+        0 0 10px rgba(255,0,110,0.4),
+        0 0 20px rgba(191,0,255,0.2),
+        0 5px 30px rgba(0,0,0,0.4);
       background: rgba(0,0,0,0.3);
     }
 
@@ -247,7 +255,7 @@
       font-family: 'Permanent Marker', cursive;
       font-size: 1.2rem;
       color: var(--neon-blue);
-      text-shadow: 0 0 10px var(--neon-blue);
+      text-shadow: 0 0 3px rgba(0,245,255,0.4);
     }
 
     /* Botão voltar */
@@ -510,7 +518,7 @@
       font-size: clamp(2rem, 8vw, 3.5rem);
       color: var(--neon-yellow);
       text-shadow: 
-        0 0 10px var(--neon-yellow),
+        0 0 5px var(--neon-yellow),
         3px 3px 0 var(--neon-pink);
       text-align: center;
     }
